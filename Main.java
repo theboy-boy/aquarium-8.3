@@ -15,7 +15,7 @@ public class Main{
         Fish shad1 = new Fish("Shad1",54,80); //8
         Fish shad2 = new Fish("Shad2",54,80); //9
         Fish anglerfish = new Fish("Anglerfish",34, 39);
-
+        ArrayList<Fish> fishes = new ArrayList<Fish>(Arrays.asList(catfish1, catfish2, perch1, perch2, trout1, trout2, minnow1, minnow2, shad1, shad2, anglerfish));
         //Fish Friends
         // Catfish are compatible with catfish and perch
         catfish1.addFriend(catfish2);
@@ -65,5 +65,13 @@ public class Main{
         shad2.addFriend(shad1);
         shad2.addFriend(minnow1);
         shad2.addFriend(minnow2);
+
+        //tanks
+        Aquarium aquarium = new Aquarium();
+        for (Fish fish : fishes){
+        aquarium.addTank(fish);
+        }
+        aquarium.addFish(fishes);
+        
     }
 }

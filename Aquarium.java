@@ -9,6 +9,9 @@ public class Aquarium{
     }
 
 
+    public ArrayList<Tank> getTanks(){
+        return tanks;
+    }
     /**
      * Returns a tank in this aquarium with a temperature fishy can tolerate and
      * that does not contain a fish that is not compatible with fishy. Returns
@@ -17,8 +20,23 @@ public class Aquarium{
      * @param fishy the fish to be checked
      * @return a suitable tank for fishy or null if no such tank exists
      */
-    private Tank findTank(Fish fishy){
+    public Tank findTank(Fish fishy){
         /* to be implemented in part (a) */
+        for (Tank tank : tanks){
+            if (fishy.minTemp() <tank.temp() && fishy.maxTemp()>tank.temp()){
+                boolean compatable = true;
+                for (Fish fishies : tank.getFish()){
+                    if (fishy.isCompatible(fishies)){
+                        compatable=false;
+                        break;
+                    }
+                }
+                if (compatable){
+                    return tank;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -28,7 +46,16 @@ public class Aquarium{
      * @return a list of the fish in fishes that could not be added
      */
     public ArrayList<Fish> addFish(ArrayList<Fish> fishes){
-        /* to be implemented in part (b) */
+        ArrayList<Fish> notAdded = new ArrayList<Fish>();
+        for (Fish fish : fishes){
+            Tank suitableTank = findTank(fish);
+            if (suitableTank == null){
+                notAdded.add(fish);
+            }else{
+                suitableTank.addFish(fish);
+            }
+        }
+        return notAdded;
     }
 
     /**
@@ -39,7 +66,29 @@ public class Aquarium{
      * @param fishTank the tank to add
      * @return true if fishTank was added, false otherwise
      */
-    public boolean addTank(Tank fishTank){
-        /* to be implemented in part (c) */
+    public boolean addTank(Fish fish){
+
+        if (tanks.isEmpty()){
+            tanks.add(new Tank((fish.minTemp()+fish.maxTemp())/2));
+            return true;
+        }
+        Tank fishTank = new Tank((fish.minTemp()+fish.maxTemp())/2);
+        if (Math.abs(fishTank.temp()-tanks.get(0).temp())<=5){
+            tanks.add(0, fishTank);
+            return true;
+        }
+        for (int i = 1; i<tanks.size(); i++){
+            int tempDifLower = Math.abs(fishTank.temp()-tanks.get(i-1).temp());
+            int tempDifUpper = Math.abs(fishTank.temp()-tanks.get(i).temp());
+            if ((Math.abs(fishTank.temp()-tempDifLower)<=5)&&(Math.abs(fishTank.temp()-tempDifUpper))<=5){
+                tanks.add(i, fishTank);
+                return true;
+        }
+        }
+        if (Math.abs(fishTank.temp()-tanks.get(tanks.size()-1).temp())<=5){
+            tanks.add(tanks.size()-1, fishTank);
+            return true;
+        }
+        return false;
     }
 }
