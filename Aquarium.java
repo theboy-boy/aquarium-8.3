@@ -12,6 +12,9 @@ public class Aquarium{
     public ArrayList<Tank> getTanks(){
         return tanks;
     }
+    public Tank getTank(int index){
+        return tanks.get(index);
+    }
     /**
      * Returns a tank in this aquarium with a temperature fishy can tolerate and
      * that does not contain a fish that is not compatible with fishy. Returns
@@ -73,19 +76,19 @@ public class Aquarium{
             return true;
         }
         Tank fishTank = new Tank((fish.minTemp()+fish.maxTemp())/2);
-        if (Math.abs(fishTank.temp()-tanks.get(0).temp())<=5){
+        if (Math.abs(fish.minTemp()-tanks.get(0).temp())>=5&&fish.maxTemp()-tanks.get(0).temp()>=5){
             tanks.add(0, fishTank);
             return true;
         }
         for (int i = 1; i<tanks.size(); i++){
             int tempDifLower = Math.abs(fishTank.temp()-tanks.get(i-1).temp());
             int tempDifUpper = Math.abs(fishTank.temp()-tanks.get(i).temp());
-            if ((Math.abs(fishTank.temp()-tempDifLower)<=5)&&(Math.abs(fishTank.temp()-tempDifUpper))<=5){
+            if ((Math.abs(fishTank.temp()-tempDifLower)>=5)&&(Math.abs(fishTank.temp()-tempDifUpper))<=5){
                 tanks.add(i, fishTank);
                 return true;
         }
         }
-        if (Math.abs(fishTank.temp()-tanks.get(tanks.size()-1).temp())<=5){
+        if (Math.abs(fish.minTemp()-tanks.get(tanks.size()-1).temp())>=5&&fish.maxTemp()-tanks.get(tanks.size()-1).temp()>=5){
             tanks.add(tanks.size()-1, fishTank);
             return true;
         }

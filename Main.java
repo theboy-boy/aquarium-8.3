@@ -68,10 +68,17 @@ public class Main{
 
         //tanks
         Aquarium aquarium = new Aquarium();
+        aquarium.addTank(catfish1);
         for (Fish fish : fishes){
-        aquarium.addTank(fish);
-        }
-        aquarium.addFish(fishes);
-        
+            System.out.println(aquarium.getTanks());
+            for (Tank tank : aquarium.getTanks()){
+                if (aquarium.addTank(fish)){
+                    aquarium.addTank(fish);
+                    aquarium.getTank(aquarium.getTanks().size()).addFish(fish);
+                }else{
+                    tank.addFish(fish);
+                }
+            }
+        }    
     }
 }
