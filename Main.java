@@ -73,8 +73,7 @@ public class Main{
             System.out.println(aquarium.getTanks());
             for (Tank tank : aquarium.getTanks()){
                 if (aquarium.addTank(fish)){
-                    aquarium.addTank(fish);
-                    aquarium.getTank(aquarium.getTanks().size()).addFish(fish);
+                    aquarium.getTank(aquarium.getTanks().size()-1).addFish(fish);
                 }else{
                     tank.addFish(fish);
                 }

@@ -76,22 +76,20 @@ public class Aquarium{
             return true;
         }
         Tank fishTank = new Tank((fish.minTemp()+fish.maxTemp())/2);
-        if (Math.abs(fish.minTemp()-tanks.get(0).temp())>=5&&fish.maxTemp()-tanks.get(0).temp()>=5){
-            tanks.add(0, fishTank);
-            return true;
+        if (Math.abs(fish.minTemp()-tanks.get(0).temp())<=5&&fish.minTemp()-tanks.get(0).temp()>=-5||fish.maxTemp()-tanks.get(0).temp()<=5&&fish.maxTemp()-tanks.get(0).temp()>=-5){
+            return false;
         }
-        for (int i = 1; i<tanks.size(); i++){
-            int tempDifLower = Math.abs(fishTank.temp()-tanks.get(i-1).temp());
-            int tempDifUpper = Math.abs(fishTank.temp()-tanks.get(i).temp());
-            if ((Math.abs(fishTank.temp()-tempDifLower)>=5)&&(Math.abs(fishTank.temp()-tempDifUpper))<=5){
-                tanks.add(i, fishTank);
-                return true;
+        for (int i = 1; i<tanks.size()-1; i++){
+            int tempDifLower = Math.abs(fish.minTemp()-tanks.get(i-1).temp());
+            int tempDifUpper = Math.abs(fish.maxTemp()-tanks.get(i).temp());
+            if ((Math.abs(fish.minTemp()-tempDifLower)<=5)&&(Math.abs(fish.minTemp()-tempDifLower)>=-5)||(Math.abs(fish.maxTemp()-tempDifUpper))<=5&&(Math.abs(fish.maxTemp()-tempDifUpper))>=-5){
+                return false;
         }
         }
-        if (Math.abs(fish.minTemp()-tanks.get(tanks.size()-1).temp())>=5&&fish.maxTemp()-tanks.get(tanks.size()-1).temp()>=5){
-            tanks.add(tanks.size()-1, fishTank);
-            return true;
+        if (Math.abs(fish.minTemp()-tanks.get(tanks.size()-1).temp())<=5&&fish.minTemp()-tanks.get(tanks.size()-1).temp()>=-5||fish.maxTemp()-tanks.get(tanks.size()-1).temp()<=5&&fish.maxTemp()-tanks.get(tanks.size()-1).temp()>=-5){
+            return false;
         }
-        return false;
+        tanks.add(fishTank);
+        return true;
     }
 }
